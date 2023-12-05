@@ -39,13 +39,14 @@ def main():
 
     number_brother_distance = 0
     number_girlfriend_distance = 0
+    new_point_color = "blue"
 
     # a podla neho to porovnat
     for i in range(k):
         number_brother_distance += max(distances_from_brother)
         distances_from_brother.remove(max(distances_from_brother))
         # print(distances_from_brother)
-
+        
     for j in range(k):
         number_girlfriend_distance += max(distances_from_girlfriend)
         distances_from_girlfriend.remove(max(distances_from_girlfriend))
@@ -53,14 +54,42 @@ def main():
 
     if number_brother_distance < number_girlfriend_distance:
         print('The gift will be for brother')
+        new_point_color = "#104DCA"
     elif number_brother_distance == number_girlfriend_distance:
         print('The gift can be for both of them')
+        #white
+        new_point_color = "#FFFFFF"
     else:
         print('The gift is for your girlfriend')
+        new_point_color = "#FF0000"
 
     print(f"Distance from brother is {number_brother_distance}")
     print(f"Distance from girlfriend is {number_girlfriend_distance}")
 
+    # visualize
+
+    ax = plt.subplot()
+    ax.grid(True, color="#323232")
+    ax.set_facecolor("#000000")
+    ax.figure.set_facecolor("#121212")
+    ax.tick_params(axis="x", color="white")
+    ax.tick_params(axis="y", color="white")
+
+    # blue
+    for point in brother:
+        ax.scatter(point[0], point[1], color="#104DCA", s=60)
+    # red
+    for point in girlfriend:
+        ax.scatter(point[0], point[1], color="#FF0000", s=60)
+
+    ax.scatter(new_point[0], new_point[1], color=new_point_color, marker="*", s=200, zorder=100)
+
+    for point in brother:
+        ax.plot([new_point[0], point[0]], [new_point[1], point[1]], color="#104DCA", linestyle="--", linewidth=1)
+    for point in girlfriend:
+        ax.plot([new_point[0], point[0]], [new_point[1], point[1]], color="#FF0000", linestyle="--", linewidth=1)
+    
+    plt.show()
 main()
 
 
